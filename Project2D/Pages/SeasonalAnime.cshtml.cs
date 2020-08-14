@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Project2D.Models;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+
+using System.Diagnostics;
 
 namespace Project2D.Pages
 {
     public class SeasonalAnimeModel : PageModel
     {
-        public void OnGet()
+        private readonly GqlConsumer _consumer;
+        public SeasonalAnimeModel(GqlConsumer consumer)
         {
+            _consumer = consumer;
+        }
 
+        public AnimeIndex Anime { get; set; }
+        
+        public async Task OnGet()
+        {
+            Debug.WriteLine("SeasonalAnime OnGet Reached...");
+            Anime = await _consumer.GetSeasonalAnimeList();
         }
     }
 }

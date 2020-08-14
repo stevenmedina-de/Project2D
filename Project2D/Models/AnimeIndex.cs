@@ -2,7 +2,7 @@
 
 namespace Project2D.Models
 {
-    public class IndexResponse
+    public class AnimeIndex
     {
         public PageContent Page { get; set; }
 
