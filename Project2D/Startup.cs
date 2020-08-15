@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using GraphQL.Client.Abstractions;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
+using Project2D.Services;
 
 namespace Project2D
 {
@@ -22,7 +23,7 @@ namespace Project2D
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IGraphQLClient>(sp => new GraphQLHttpClient("https://graphql.anilist.co", new NewtonsoftJsonSerializer()));
-            services.AddScoped<GqlConsumer>();
+            services.AddScoped<IGqlConsumer, GqlConsumer>();
 
             services.AddRazorPages();
         }
