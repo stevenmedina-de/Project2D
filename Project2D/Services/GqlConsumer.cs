@@ -53,8 +53,8 @@ namespace Project2D.Services
             var query = new GraphQLRequest
             {
                 Query = @"query {
-                    Media (seasonYear:2020, season:SUMMER) {
-                        id
+                    Media (seasonYear:2020, season:SUMMER, format:TV) {
+                        seasonYear
                     }
                 }"
             };
