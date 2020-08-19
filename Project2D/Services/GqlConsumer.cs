@@ -1,10 +1,8 @@
-﻿using GraphQL;
-using GraphQL.Client.Abstractions;
+﻿using GraphQL.Client.Abstractions;
 using Project2D.Models;
 using System.Threading.Tasks;
-
-using System.Diagnostics;
-using System.Text.Json;
+using Project2D.ResponseTypes;
+using GraphQL;
 
 namespace Project2D.Services
 {
@@ -16,13 +14,13 @@ namespace Project2D.Services
             _client = client;
         }
 
-        public async Task<AnimeIndex> GetSeasonalAnimeList()
+        public async Task<Page> GetSeasonalAnimeList()
         {
             var query = new GraphQLRequest
             {
                 Query = @"
                     query {
-                        TVAnime: Page(page: 1, perPage: 50) {
+                        Page(page: 1, perPage: 50) {
                             pageInfo {
                                 total
                                 perPage
@@ -30,22 +28,85 @@ namespace Project2D.Services
                                 lastPage
                                 hasNextPage
                             }
-
-                            media(seasonYear:2020, season:SUMMER, format:TV) {
+                            media(seasonYear: 2020, season: SUMMER, format:TV) {
+                                id
                                 title {
+                                    romaji
+                                    english
+                                    native
                                     userPreferred
                                 }
-                                coverImage {
-                                    large
+                                type
+                                format
+                                status
+                                description(asHtml: false)
+                                startDate {
+                                    year
+                                    month
+                                    day
                                 }
+                                endDate {
+                                    year
+                                    month
+                                    day
+                                }
+                                season
+                                seasonYear
+                                episodes
+                                duration
+                                source(version:2)
+                                trailer {
+                                    id
+                                    site
+                                    thumbnail
+                                }
+                                coverImage {
+                                    color
+                                    extraLarge
+                                    large
+                                    medium
+                                }
+                                bannerImage
+                                genres
+                                averageScore
+                                meanScore
+                                tags {
+                                    id
+                                    name
+                                    description
+                                    category
+                                    rank
+                                    isGeneralSpoiler
+                                    isMediaSpoiler
+                                    isAdult
+                                }
+                                isAdult
+                                nextAiringEpisode {
+                                    id
+                                    airingAt
+                                    timeUntilAiring
+                                    episode
+                                }
+                                externalLinks {
+                                    id
+                                    url
+                                    site
+                                }
+                                streamingEpisodes {
+                                    title
+                                    thumbnail
+                                    url
+                                    site
+                                }
+                                siteUrl
                             }
                         }
-                    }"
+                    }
+                "
             };
 
-            var response = await _client.SendQueryAsync<AnimeIndex>(query);
-            Debug.WriteLine(JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
-            return response.Data;
+            var response = await _client.SendQueryAsync<PageInfoAndMediaResponseType>(query);
+            return response.Data.Page;
         }
 
         public async Task<Media> GetMedia()
@@ -53,15 +114,22 @@ namespace Project2D.Services
             var query = new GraphQLRequest
             {
                 Query = @"query {
-                    Media (seasonYear:2020, season:SUMMER, format:TV) {
-                        seasonYear
+                    Media (seasonYear:2020, season:SUMMER, format:TV, id:108632) {
+                        title {
+                            userPreferred
+                        }
+                        coverImage {
+                            color
+                            medium
+                            large
+                            extraLarge
+                        }
                     }
                 }"
             };
 
-            var response = await _client.SendQueryAsync<Media>(query);
-            Debug.WriteLine(JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
-            return response.Data;
+            var response = await _client.SendQueryAsync<MediaResponseType>(query);
+            return response.Data.Media;
         }
     }
 }
