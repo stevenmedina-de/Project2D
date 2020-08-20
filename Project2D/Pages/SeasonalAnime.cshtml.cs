@@ -13,13 +13,10 @@ namespace Project2D.Pages
         {
             _consumer = consumer;
         }
-
-        public Media Anime { get; set; }
         public Page MediaPage { get; set; }
 
         public async Task OnGet()
         {
-            Anime = await _consumer.GetMedia();
             MediaPage = await _consumer.GetSeasonalAnimeList();
         }
     }

@@ -109,7 +109,7 @@ namespace Project2D.Services
             return response.Data.Page;
         }
 
-        public async Task<Media> GetMedia()
+        public async Task<Media> GetMedia(int id)
         {
             var query = new GraphQLRequest
             {

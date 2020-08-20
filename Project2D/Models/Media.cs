@@ -59,7 +59,7 @@ namespace Project2D.Models
         public FuzzyDate EndDate { get; set; }
         public MediaSeason Season { get; set; }
         public int SeasonYear { get; set; }
-        public int Episodes { get; set; }
+        public int? Episodes { get; set; }
         public int Duration { get; set; }
         public MediaSource Source { get; set; }
         public MediaTrailer Trailer { get; set; }

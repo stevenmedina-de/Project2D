@@ -4,11 +4,14 @@
     ViewData["Title"] = "Summer 2020";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="pt-1 text-center col-md-3 ">
-            <img class="img-fluid rounded" src="@Model.Anime.CoverImage.Large" />
-            <p style="font-family:'Quicksand',sans-serif; " class="mt-2">@Model.Anime.Title.UserPreferred</p>
+    <div class="container">
+        <div class="row">
+            @for (int i = 0; i < Model.MediaPage.PageInfo.Total; i++)
+            {
+                <div class="pt-1 text-center col-md-3 ">
+                    <img class="img-fluid rounded" src="@Model.MediaPage.Media[i].CoverImage.Large" />
+                    <p style="font-family:'Quicksand',sans-serif; " class="mt-2">@Model.MediaPage.Media[i].Title.UserPreferred</p>
+                </div>
+            }
         </div>
     </div>
-</div>
