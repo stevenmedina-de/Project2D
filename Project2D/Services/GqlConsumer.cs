@@ -19,88 +19,31 @@ namespace Project2D.Services
             var query = new GraphQLRequest
             {
                 Query = @"
-                    query {
-                        Page(page: 1, perPage: 50) {
-                            pageInfo {
-                                total
-                                perPage
-                                currentPage
-                                lastPage
+                    query 
+                    {
+                        Page(page:1, perPage:50)
+                        {
+                            pageInfo
+                            {
+                                total,
+                                perPage,
+                                currentPage,
+                                lastPage,
                                 hasNextPage
                             }
-                            media(seasonYear: 2020, season: SUMMER, format:TV) {
-                                id
-                                title {
-                                    romaji
-                                    english
-                                    native
+                            media(season:SUMMER, seasonYear:2020, format:TV)
+                            {
+                                id,
+                                title
+                                {
                                     userPreferred
                                 }
-                                type
-                                format
-                                status
-                                description(asHtml: false)
-                                startDate {
-                                    year
-                                    month
-                                    day
-                                }
-                                endDate {
-                                    year
-                                    month
-                                    day
-                                }
-                                season
-                                seasonYear
-                                episodes
-                                duration
-                                source(version:2)
-                                trailer {
-                                    id
-                                    site
-                                    thumbnail
-                                }
-                                coverImage {
-                                    color
-                                    extraLarge
+                                coverImage
+                                {
                                     large
-                                    medium
                                 }
-                                bannerImage
-                                genres
-                                averageScore
-                                meanScore
-                                tags {
-                                    id
-                                    name
-                                    description
-                                    category
-                                    rank
-                                    isGeneralSpoiler
-                                    isMediaSpoiler
-                                    isAdult
-                                }
-                                isAdult
-                                nextAiringEpisode {
-                                    id
-                                    airingAt
-                                    timeUntilAiring
-                                    episode
-                                }
-                                externalLinks {
-                                    id
-                                    url
-                                    site
-                                }
-                                streamingEpisodes {
-                                    title
-                                    thumbnail
-                                    url
-                                    site
-                                }
-                                siteUrl
                             }
-                        }
+                        }   
                     }
                 "
             };
