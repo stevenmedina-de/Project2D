@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using Project2D.ResponseTypes;
 using GraphQL;
 
+using System.Diagnostics;
+using System.Text.Json;
+
 namespace Project2D.Services
 {
     public class GqlConsumer : IGqlConsumer
@@ -56,22 +59,101 @@ namespace Project2D.Services
         {
             var query = new GraphQLRequest
             {
-                Query = @"query {
-                    Media (seasonYear:2020, season:SUMMER, format:TV, id:108632) {
-                        title {
-                            userPreferred
-                        }
-                        coverImage {
-                            color
-                            medium
-                            large
-                            extraLarge
+                Query = @"
+                    query MediaInfo($mediaId: Int)
+                    {
+                        Media (id: $mediaId) 
+                        {
+                            id
+                            title 
+                            {
+                                romaji
+                                english
+                                native
+                                userPreferred
+                            }
+                            type
+                            format
+                            status
+                            description(asHtml: false)
+                            startDate 
+                            {
+                                year
+                                month
+                                day
+                            }
+                            endDate 
+                            {
+                                year
+                                month
+                                day
+                            }
+                            season
+                            seasonYear
+                            episodes      
+                            duration
+                            source(version:2)
+                            trailer 
+                            {
+                                id
+                                site
+                                thumbnail
+                            }
+                            coverImage 
+                            {
+                                color
+                                extraLarge
+                                large
+                                medium
+                            }
+                            bannerImage
+                            genres
+                            averageScore
+                            meanScore
+                            tags 
+                            {
+                                id
+                                name
+                                description
+                                category
+                                rank
+                                isGeneralSpoiler
+                                isMediaSpoiler
+                                isAdult
+                            }
+                            isAdult
+                            nextAiringEpisode 
+                            {
+                                id
+                                airingAt
+                                timeUntilAiring
+                                episode
+                            }
+                            externalLinks 
+                            {
+                                id
+                                url
+                                site
+                            }
+                            streamingEpisodes 
+                            {
+                                title
+                                thumbnail
+                                url
+                                site
+                            }
+                            siteUrl
                         }
                     }
-                }"
+                ",
+                Variables = new
+                {
+                    mediaId = id
+                }
             };
 
             var response = await _client.SendQueryAsync<MediaResponseType>(query);
+            Debug.WriteLine(JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
             return response.Data.Media;
         }
     }

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Project2D.Models;
 using Project2D.Services;
+using System.Diagnostics;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Project2D.Pages
 {
@@ -13,9 +16,9 @@ namespace Project2D.Pages
         }
          public Media Anime { get; set; }
         
-        public void OnGet(int id)
+        public async Task OnGet(int id)
         {
-
+            Anime = await _consumer.GetMedia(id);
         }
     }
 }
